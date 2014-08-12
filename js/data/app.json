@@ -1,0 +1,14 @@
+[
+    {
+        "name": "home",
+        "display-name": "Home",
+        "template-url": "pages/home.html",
+        "type": "header"
+    },
+    {
+        "name": "about",
+        "display-name": "About",
+        "template-url": "pages/about.html",
+        "type": "section"
+    }
+]
