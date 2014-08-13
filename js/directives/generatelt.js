@@ -70,6 +70,7 @@ define(['app'], function (app) {
                 out = ($compile(template))(scope);
                 element.replaceWith(out);
 
+              
             }
         }
 

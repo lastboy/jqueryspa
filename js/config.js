@@ -19,7 +19,8 @@ require.config({
 });
 
 require(['angular', 'angularoute', 'app', 'config/router', 'controllers/app', 'directives/generatelt', 'directives/scrollto'], function (angular) {
-	
-    angular.bootstrap(document, ['jqueryspa']);
-       
+
+    angular.element(document).ready(function () {
+        angular.bootstrap(document, ['jqueryspa']);
+    });
 });

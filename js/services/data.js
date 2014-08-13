@@ -11,6 +11,20 @@ define(['app'], function (app) {
         var _data = {},
 
             _deferred = $q.defer(),
+            _getSelected = function() {
+                var items = _module.all(),
+                    idx= 0, size= 0, item;
+                
+                if (items) {
+                    size = items.length;
+                    for (; idx<size; idx++) {
+                        item = items[idx];
+                        if (item.active) {
+                            return item.name;
+                        }
+                    }
+                }
+            },
 
             _module = {
 
@@ -21,7 +35,6 @@ define(['app'], function (app) {
                  * @returns {Object}
                  */
                 get: function (name) {
-                    _deferred
                     return (_data && _data.map ? _data.map[name] : undefined);
                 },
 
@@ -34,6 +47,15 @@ define(['app'], function (app) {
                     return (_data && _data.map ? _data.map : undefined);
                 },
 
+                /**
+                 * Get the item name that was marked as "active"
+                 * 
+                 * @returns {*}
+                 */
+                getSelected: function() {
+                    return _getSelected();
+                },
+                
                 /**
                  * Get all records
                  *

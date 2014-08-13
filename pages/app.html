@@ -1,8 +1,8 @@
-<nav class="navigation">
-    <a href="javascript:void(0)" scroll-to="about">about</a>
+<nav  id="menu" class="navigation">
+    <ul ng-repeat="page in pages" >
+        <li class="{{page.active}}"><a class="{{page.active}}" href="javascript:void(0)" scroll-to="{{page.name}}">{{page['display-name']}}</a></li>     
+    </ul>
+    
 </nav>
 
-
-
-    
 <generatelt id="{{page.name}}" type="{{page.type}}" templateUrl="{{page['template-url']}}"  ng-repeat="page in pages" ></generatelt>

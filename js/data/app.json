@@ -3,12 +3,14 @@
         "name": "home",
         "display-name": "Home",
         "template-url": "pages/home.html",
-        "type": "header"
+        "type": "header",
+        "active":""
     },
     {
         "name": "about",
         "display-name": "About",
         "template-url": "pages/about.html",
-        "type": "section"
+        "type": "section",
+        "active": "active"
     }
 ]
