@@ -12,5 +12,19 @@
         "template-url": "pages/about.html",
         "type": "section",
         "active": "active"
+    },
+    {
+        "name": "testA",
+        "display-name": "TestA",
+        "template-url": "pages/about.html",
+        "type": "section",
+        "active": ""
+    },
+    {
+        "name": "testB",
+        "display-name": "TestB",
+        "template-url": "pages/about.html",
+        "type": "section",
+        "active": ""
     }
 ]

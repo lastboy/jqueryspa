@@ -1,14 +1,10 @@
 @import "base";
 @import "pages/home";
+@import "resolutions/desktop";
+@import "resolutions/devices";
 
-.navigation {
-  width: 100%;
-  height: 55px;
-  background-color: #23242A;
-  text-align: center;
-  position: fixed;
-  top: 0;
-  z-index:2;
+#menu {
+  .transition(all .8s ease-in-out);
 }
 
 header {
@@ -35,64 +31,18 @@ a {
   position: relative;
 }
 
-
-/* Navigation Links */
-nav ul li {
-  float: left;
-}
-
 nav {
   background-color: #23242A;
-  text-align: center;
   position: fixed;
   z-index: 2;
+
   width: 100%;
-}
-
-nav ul {
-  display: inline-block;
-}
-
-nav ul li {
-
-  .transition(background-color .4s ease-in-out);
-
-  position: relative;
-  display: block;
   height: 55px;
-  width: 100px;
-  top: 0px;
+  top: 0;
+
+  ul {
+    background-color: #23242A;
+  }
 }
 
-nav a {
-
-  .transition(font-size 0.2s ease-in-out, background-color .4s ease-in-out, top .1s ease-in-out);
-
-  color: white;
-  font-weight: 100;
-  letter-spacing: 1px;
-  top: 18px;
-  position: relative;
-  display: block;
-  height: 55px;
-  width: 100px;
-  text-decoration: none;
-}
-
-nav a:hover,  nav a.active,{
-
-  .transition(font-size 0.2s ease-in-out, background-color .4s ease-in-out, top .1s ease-in-out);
-
-
-  font-size: 24px;
-  top: 12px;
-     
-}
-
-nav li:hover, nav li.active {
-
-  .transition(background-color .4s ease-in-out);
-
-  background-color: #000000;
-}
 

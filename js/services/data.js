@@ -20,7 +20,7 @@ define(['app'], function (app) {
                     for (; idx<size; idx++) {
                         item = items[idx];
                         if (item.active) {
-                            return item.name;
+                            return item;
                         }
                     }
                 }
