@@ -1,6 +1,9 @@
 /*global require*/
 'use strict';
 
+/*
+    RequireJS configuration
+ */
 require.config({
 	paths: {
 		angular: '../bower_components/angular/angular',
@@ -18,6 +21,9 @@ require.config({
 	}
 });
 
+/*
+    Initial require call
+ */
 require(['angular', 'angularoute', 'app', 'config/router', 'controllers/app', 'directives/generatelt', 'directives/scrollto'], function (angular) {
 
     angular.element(document).ready(function () {

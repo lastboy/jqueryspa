@@ -1,6 +1,9 @@
 /*global define*/
 'use strict';
 
+/**
+ * Angular Main Module
+ */
 define(['angular'], function (angular) {
     
 	var app;

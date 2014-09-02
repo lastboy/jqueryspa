@@ -24,8 +24,8 @@ define(['app'], function (app) {
             if (to !== undefined) {
                 elt = $("html,body");
                 if (to === 0) {
-                    elt.animate({scrollTop:5 }, "slow");
-                    elt.animate({scrollTop: 0 }, "slow");
+                    elt.animate({scrollTop:5 }, "fast");
+                    elt.animate({scrollTop: 0 }, "fast");
                 } else {
                     elt.animate({scrollTop:to }, "slow");
                 }

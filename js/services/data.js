@@ -2,7 +2,10 @@
 'use strict';
 
 /**
- * Load the application's meta data (see: 'js/data/app.json')
+ * Load the application's meta data 
+ * 
+ * see: 'js/data/app.json' meta-data file 
+ * see: 'js/controllers/app.js' with appData factory usage
  */
 define(['app'], function (app) {
 
@@ -69,10 +72,15 @@ define(['app'], function (app) {
 
             },
 
+            /**
+             * Data initialization
+             * 
+             */
             _init = function (callback) {
 
                 var me = this;
 
+                // loading the meta-data from the JSON file
                 $http.get('js/data/app.json')
 
                     .success(function (response) {
@@ -107,6 +115,7 @@ define(['app'], function (app) {
                     });
             };
 
+        // Initializing the meta-data
         _init();
         
         return _deferred.promise;

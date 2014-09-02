@@ -32,16 +32,27 @@ define(['app'], function (app) {
                 var topMenuHeight,
                     selectedData;
 
-
+                /**
+                 * Set the opacity style to the top menu
+                 * 
+                 * @param styleclass
+                 * @private
+                 */
                 function _setMenuOpacity(styleclass) {
                     if (_topMenu && styleclass) {
                         _topMenu.removeClass();
                         _topMenu.addClass(styleclass);   
                     }
                 }
-                
+
+                /**
+                 * Initialization phase
+                 * 
+                 * @private
+                 */
                 function _init() {
 
+                    // Top menu initial settings
                     _topMenu = $("#menu");
                     if (_topMenu[0]) {
 
@@ -78,6 +89,12 @@ define(['app'], function (app) {
                     }
                 }
 
+                /**
+                 * Section element update according to the scroll position
+                 * 
+                 * @param id
+                 * @private
+                 */
                 function _updateSection(id) {
 
                     var sectionData;
@@ -103,6 +120,11 @@ define(['app'], function (app) {
                     }
                 }
 
+                /**
+                 * Top menu controller 
+                 * 
+                 * @private
+                 */
                 function _menuController() {
                     if (_menuOptions.css("display") !== "none") {
                         if (_menuHandle) {
@@ -131,11 +153,12 @@ define(['app'], function (app) {
                         scrolldirective.scrollTo.call(this, {scrollTo: selectedData.name});
                     }
 
+                    // on window resize
                     $(window).resize(function () {
                         _menuController();
                     });
                         
-                    // Bind to scroll
+                    // on window scroll
                     $(window).scroll(function () {
 
                         // Get container scroll position

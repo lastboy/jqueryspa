@@ -13,6 +13,7 @@ define(['app', 'common/manager', 'services/data', "directives/scrollto"], functi
         // Initial selected section as empty
         $scope.selectedSection = {name: "", data: undefined};
         
+        // On meta-data retrieved setup the UI accordingly
         appData.then(function(data) {
             
             // Set the data into scope
