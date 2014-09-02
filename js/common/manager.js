@@ -33,6 +33,13 @@ define(['app'], function (app) {
                     selectedData;
 
 
+                function _setMenuOpacity(styleclass) {
+                    if (_topMenu && styleclass) {
+                        _topMenu.removeClass();
+                        _topMenu.addClass(styleclass);   
+                    }
+                }
+                
                 function _init() {
 
                     _topMenu = $("#menu");
@@ -41,15 +48,15 @@ define(['app'], function (app) {
                         _menuOptions = $("#menu-options");
 
                         _menuOptions.on("click", function() {
-                            _topMenu.css("opacity", "0.7");
+                            _setMenuOpacity("opacity-on");
                         });                                              
                         
                         _menuOptions.on("mouseover", function() {
-                            _topMenu.css("opacity", "0.7");
+                            _setMenuOpacity("opacity-on");
                         });
 
                         _topMenu.on("mouseover", function() {
-                             _topMenu.css("opacity", "0.7");
+                            _setMenuOpacity("opacity-on");
                         });
 
                         _menuOptions.on("mouseout", function() {
@@ -100,13 +107,14 @@ define(['app'], function (app) {
                     if (_menuOptions.css("display") !== "none") {
                         if (_menuHandle) {
                             _menuHandle = clearTimeout(_menuHandle);
-                            _topMenu.css("opacity", "0.7");
+                            _setMenuOpacity("opacity-on");
                         }
                         _menuHandle = setTimeout(function() {
-                            _topMenu.css("opacity", "0");
+                            _setMenuOpacity("opacity-full");
                         }, 1500);
                     } else {
-                        _topMenu.css("opacity", "1");
+                        _menuHandle = clearTimeout(_menuHandle);
+                        _setMenuOpacity("opacity-off");
                     }
                 }
 
