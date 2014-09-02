@@ -1,7 +1,7 @@
 /*global define*/
 'use strict';
 /**
- * Directive for generating an element according to its metadata
+ * Directive for generating an element according to its metadata (e.g. js/pages/app.html)
  *
  * type: The tag type
  * template-url: The template url to be included
