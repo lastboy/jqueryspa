@@ -4,27 +4,27 @@
         "display-name": "Home",
         "template-url": "pages/home.html",
         "type": "header",
-        "active":""
+        "active":false
     },
     {
         "name": "about",
         "display-name": "About",
         "template-url": "pages/about.html",
         "type": "section",
-        "active": "active"
+        "active": false
     },
     {
         "name": "testA",
         "display-name": "TestA",
         "template-url": "pages/about.html",
         "type": "section",
-        "active": ""
+        "active": false
     },
     {
         "name": "testB",
         "display-name": "TestB",
         "template-url": "pages/about.html",
         "type": "section",
-        "active": ""
+        "active": false
     }
 ]
