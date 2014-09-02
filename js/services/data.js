@@ -2,7 +2,7 @@
 'use strict';
 
 /**
- * Load the application's meta data
+ * Load the application's meta data (see: 'js/data/app.json')
  */
 define(['app'], function (app) {
 
@@ -24,6 +24,8 @@ define(['app'], function (app) {
                         }
                     }
                 }
+                
+                return items[0];
             },
 
             _module = {
