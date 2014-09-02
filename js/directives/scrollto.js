@@ -13,7 +13,8 @@ define(['app'], function (app) {
         
         var location = (attrs ? attrs.scrollTo : undefined),
             target,
-            to;
+            to,
+            elt;
 
         if (location) {
             target = $("#" + location);
@@ -21,7 +22,13 @@ define(['app'], function (app) {
             
             // scroll to the section 
             if (to !== undefined) {
-                $("html,body").animate({scrollTop:to }, "slow");
+                elt = $("html,body");
+                if (to === 0) {
+                    elt.animate({scrollTop:5 }, "slow");
+                    elt.animate({scrollTop: 0 }, "slow");
+                } else {
+                    elt.animate({scrollTop:to }, "slow");
+                }
             }
         }
     };
