@@ -13,9 +13,20 @@ BODY {
 }
 #home .header {
   width: 100%;
-  height: 200px;
+  height: 520px;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9Imxlc3NoYXQtZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9InJnYigxOTYsIDE5NiwgMTk2KSIgc3RvcC1vcGFjaXR5PSIwLjY1Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSJyZ2IoMjU1LCAyNTUsIDI1NSkiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNsZXNzaGF0LWdlbmVyYXRlZCkiIC8+PC9zdmc+);
+  background-image: -webkit-linear-gradient(top, rgba(196, 196, 196, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -moz-linear-gradient(top, rgba(196, 196, 196, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(top, rgba(196, 196, 196, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(to bottom, rgba(196, 196, 196, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a6c4c4c4', endColorstr='#00ffffff', GradientType=0);
+  /* IE6-9 */
+}
+#home .header .title {
+  width: 100%;
+  height: 490px;
   text-align: center;
-  background: url(images/bg.jpg);
+  background: url(images/title.png) center no-repeat;
 }
 /* Navigation Links */
 nav {
@@ -55,6 +66,7 @@ nav ul li a {
   display: block;
   height: 55px;
   width: 100px;
+  outline: 0;
   text-decoration: none;
 }
 nav ul li a.active {
@@ -63,6 +75,7 @@ nav ul li a.active {
   -o-transition: font-size 0.2s ease-in-out, background-color 0.4s ease-in-out, top 0.1s ease-in-out;
   transition: font-size 0.2s ease-in-out, background-color 0.4s ease-in-out, top 0.1s ease-in-out;
   font-size: 24px;
+  font-weight: bold;
   top: 12px;
 }
 nav ul li:hover,
@@ -91,15 +104,26 @@ nav ul li.active {
     border-left: 1px solid white;
     background-color: #5E5C5C;
     cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
   }
   nav #menu {
-    opacity: 1;
     display: inline-block;
     margin-top: 55px;
-    opacity: .5;
+    opacity: 0.7;
   }
   nav #menu .fold {
     opacity: 0;
+  }
+  nav .opacity-off {
+    opacity: 1 !important;
+  }
+  nav .opacity-on {
+    opacity: 0.7 !important;
+  }
+  nav .opacity-full {
+    opacity: 0 !important;
   }
   nav ul {
     padding: 10px 0 10px 0 ;
@@ -129,6 +153,7 @@ nav ul li.active {
     letter-spacing: 1px;
     top: 18px;
     text-decoration: none;
+    outline: 0;
   }
   nav ul li a.active {
     display: inline;
@@ -139,6 +164,7 @@ nav ul li.active {
     background-color: #000000;
     font-size: 24px;
     top: 12px;
+    font-weight: bold;
   }
   nav ul li .fold {
     top: -100px;
@@ -151,12 +177,6 @@ nav ul li.active {
     transition: background-color 0.4s ease-in-out;
     background-color: #000000;
   }
-}
-#menu {
-  -webkit-transition: all 0.8s ease-in-out;
-  -moz-transition: all 0.8s ease-in-out;
-  -o-transition: all 0.8s ease-in-out;
-  transition: all 0.8s ease-in-out;
 }
 header {
   position: relative;
@@ -188,4 +208,10 @@ nav {
 }
 nav ul {
   background-color: #23242A;
+}
+nav #menu {
+  -webkit-transition: all 0.8s ease-in-out;
+  -moz-transition: all 0.8s ease-in-out;
+  -o-transition: all 0.8s ease-in-out;
+  transition: all 0.8s ease-in-out;
 }
