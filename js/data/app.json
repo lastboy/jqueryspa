@@ -7,22 +7,22 @@
         "active":false
     },
     {
+        "name": "howto",
+        "display-name": "How To",
+        "template-url": "pages/howto.html",
+        "type": "section",
+        "active":false
+    },    
+    {
+        "name": "credits",
+        "display-name": "Credits",
+        "template-url": "pages/credits.html",
+        "type": "section",
+        "active":false
+    },
+    {
         "name": "about",
         "display-name": "About",
-        "template-url": "pages/about.html",
-        "type": "section",
-        "active": false
-    },
-    {
-        "name": "testA",
-        "display-name": "TestA",
-        "template-url": "pages/about.html",
-        "type": "section",
-        "active": false
-    },
-    {
-        "name": "testB",
-        "display-name": "TestB",
         "template-url": "pages/about.html",
         "type": "section",
         "active": false
