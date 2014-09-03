@@ -1,5 +1,6 @@
 @import "base";
 @import "pages/home";
+@import "pages/credits";
 @import "resolutions/desktop";
 @import "resolutions/devices";
 
@@ -9,7 +10,12 @@ header {
 }
 
 section {
-  padding-top: 100px;
+  padding: 100px 20px 0 20px;
+  .h1();
+  
+  .footer {
+    height: 300px;
+  }
 }
 
 /* UL LI */
@@ -30,7 +36,7 @@ a {
 nav {
   background-color: #23242A;
   position: fixed;
-  z-index: 2;
+  z-index: 100000;
 
   width: 100%;
   height: 55px;
