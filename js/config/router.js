@@ -13,7 +13,7 @@ define(['app'], function (app) {
 
             // route for the home page
             .when('/', {
-                templateUrl : 'pages/app.html',
+                templateUrl : 'templates/app.html',
                 controller  : 'appController'
             })
 
