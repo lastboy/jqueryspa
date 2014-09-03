@@ -22,10 +22,10 @@ define(['app'], function (app) {
             
             // scroll to the section 
             if (to !== undefined) {
-                elt = $("html,body");
-                if (to === 0) {
+                elt = $("body");
+                if (to === 0 && elt.scrollTop() === 0) {
                     elt.animate({scrollTop:5 }, "fast");
-                    elt.animate({scrollTop: 0 }, "fast");
+                    elt.animate({scrollTop: 0 }, "slow");
                 } else {
                     elt.animate({scrollTop:to }, "slow");
                 }
