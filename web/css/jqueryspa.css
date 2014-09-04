@@ -27,18 +27,20 @@ BODY {
   text-align: center;
   background: url(images/title.png) center no-repeat;
 }
+@media only screen and (max-device-width: 480px) and (min-device-width: 320px) {
+  #home .header .title {
+    width: 100%;
+    height: 600px;
+    text-align: center;
+    background: url(images/title_280.png) center no-repeat;
+  }
+}
 #home .content {
   padding: 0 20px 0 20px;
 }
 #home .content .poweredby {
   display: inline-block;
   width: 100%;
-}
-#home .content .poweredby .jqueryconf {
-  background: url(images/jqueryconf_200.png) no-repeat left center transparent;
-  width: 251px;
-  height: 210px;
-  display: table-cell;
 }
 #home .content .poweredby .catjs {
   display: block;
@@ -50,7 +52,21 @@ BODY {
   height: 48px;
   z-index: 3;
 }
+#home .content .poweredby .jqueryconf {
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  background: url(images/jqueryconf_200.png) no-repeat left center transparent;
+  width: 251px;
+  height: 210px;
+  display: table-cell;
+}
 #home .content .poweredby .todomvc {
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
   background: url(images/todomvc.png) no-repeat 30px 100px transparent;
   width: 270px;
   height: 200px;
@@ -58,10 +74,39 @@ BODY {
   padding-left: 20px;
 }
 #home .content .poweredby .todomvc .todomvcnote {
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
   background: url(images/todomvcnote.png) no-repeat 150px 20px transparent;
   width: 250px;
   height: 200px;
   position: absolute;
+}
+@media only screen and (max-width: 720px), screen and (max-device-width: 480px) and (min-device-width: 320px) {
+  #home .content .poweredby .catjs {
+    top: 30px;
+    left: 105px;
+  }
+  #home .content .poweredby .todomvc {
+    background: url(images/todomvc_100.png) no-repeat 2px 94px transparent;
+    width: 100px;
+    height: 10px;
+    top: -5px;
+    left: 40px;
+  }
+  #home .content .poweredby .todomvc .todomvcnote {
+    background: url(images/todomvcnote_50.png) no-repeat 29px 52px transparent;
+    width: 100px;
+    height: 100px;
+  }
+  #home .content .poweredby .jqueryconf {
+    background: url(images/jqueryconf_100.png) no-repeat left center transparent;
+    width: 110px;
+    height: 125px;
+    left: 35px;
+    top: 12px;
+  }
 }
 #home .bullets {
   display: inline-block;
@@ -134,7 +179,7 @@ nav ul li {
   position: relative;
   display: block;
   height: 55px;
-  width: 100px;
+  width: 120px;
   top: 0px;
 }
 nav ul li a {
@@ -149,7 +194,7 @@ nav ul li a {
   position: relative;
   display: block;
   height: 55px;
-  width: 100px;
+  width: 120px;
   outline: 0;
   text-decoration: none;
 }
@@ -170,7 +215,7 @@ nav ul li.active {
   transition: background-color 0.4s ease-in-out;
   background-color: #000000;
 }
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 720px), screen and (max-device-width: 480px) and (min-device-width: 320px) {
   nav {
     text-align: right;
   }
@@ -180,7 +225,7 @@ nav ul li.active {
     color: #ffffff;
     top: 0;
     z-index: 1;
-    width: 100px;
+    width: 120px;
     height: 55px;
     line-height: 55px;
     right: 0px;

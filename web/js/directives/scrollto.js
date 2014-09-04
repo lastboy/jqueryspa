@@ -14,7 +14,8 @@ define(['app'], function (app) {
         var location = (attrs ? attrs.scrollTo : undefined),
             target,
             to,
-            elt;
+            elt,
+            body;
 
         if (location) {
             target = $("#" + location);
@@ -22,8 +23,9 @@ define(['app'], function (app) {
             
             // scroll to the section 
             if (to !== undefined) {
-                elt = $("body");
-                if (to === 0 && elt.scrollTop() === 0) {
+                elt = $("html, body");
+                body = $("body");
+                if (to === 0 && body.scrollTop() === 0) {
                     elt.animate({scrollTop:5 }, "fast");
                     elt.animate({scrollTop: 0 }, "slow");
                 } else {

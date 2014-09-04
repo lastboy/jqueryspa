@@ -1,4 +1,4 @@
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 720px), screen and (max-device-width: 480px) and (min-device-width: 320px) {
   
   nav {
 
@@ -8,7 +8,7 @@
       color: #ffffff;
       top: 0;
       z-index: 1;
-      width: 100px;
+      width: unit(@menu-item-width, px);
       height: 55px;
       line-height: 55px;
       right: 0px;
