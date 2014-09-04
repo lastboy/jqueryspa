@@ -18,10 +18,11 @@ In additional there's a basic NodeJS server for running the application.
 * In case you wish to add CSS to your content add less files accordingly in web/css/less/pages folder and don't forget to import them in app.less file.
 * Tools: to be able to run the less builder and the NodeJS server, you have to have NodeJS installed.
     * Install NodeJS
-    * From the web folder run the command line, <code>NPM Install</code> for installing the NodeJS dependencies
-    * From the web folder run the command line, <code>node lessbuilder</code> for generating the jqueryspa.css file
-    * To run the server, from the web folder run the command line, <code>node demo-server start</code> 
-    * When the server is up go to: http://localhost:8080
+    * From the root project run the command line, <code>NPM Install</code> for installing the NodeJS dependencies
+    * From the root project run the command line, <code>node lessbuilder</code> for generating the jqueryspa.css file
+    * To run the server, from the root project run the command line, <code>node demo-server start</code> 
+    * When the server is up go to: http://localhost:8080/web
+* [Bower](http://bower.io/) need to be installed in case you wish to update the web libraries. From the *web* folder run the command line: <code>bower install</code>
 
 # catjs built-in tests
 [CatJS](https://www.npmjs.org/package/catjs) is an open source automation framework that I'm using for testing this application.  
