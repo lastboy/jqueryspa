@@ -40,6 +40,16 @@ BODY {
   height: 210px;
   display: table-cell;
 }
+#home .content .poweredby .catjs {
+  display: block;
+  top: 40px;
+  position: relative;
+  left: 230px;
+  background: url(images/catjs_48.png) no-repeat left center transparent;
+  width: 103px;
+  height: 48px;
+  z-index: 3;
+}
 #home .content .poweredby .todomvc {
   background: url(images/todomvc.png) no-repeat 30px 100px transparent;
   width: 270px;
@@ -88,6 +98,19 @@ BODY {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   color: #2c2e35;
+}
+.footer {
+  height: 300px;
+  width: 100%;
+  display: table;
+  text-align: center;
+  padding: 10px;
+}
+.footer .catjsabout {
+  height: 25px;
+  font-size: 10px;
+  display: table-cell;
+  vertical-align: bottom;
 }
 /* Navigation Links */
 nav {
@@ -251,9 +274,6 @@ section H1 {
   font-size: 52px;
   font-weight: bold;
   text-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
-}
-section .footer {
-  height: 300px;
 }
 /* UL LI */
 ul {
