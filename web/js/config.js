@@ -22,11 +22,27 @@ require.config({
 });
 
 /*
+    @[scrap
+        @@require[
+            /cat/lib/cat.js
+        ]
+    ]@
+*/
+
+/*
     Initial require call
  */
 require(['angular', 'angularoute', 'app', 'config/router', 'controllers/app', 'directives/generatelt', 'directives/scrollto'], function (angular) {
 
     angular.element(document).ready(function () {
         angular.bootstrap(document, ['jqueryspa']);
+
+        /*
+         @[scrap
+            @@name bootstrapInitTest
+            @@assert ok(true, "Bootstrap Initialization failed")
+         ]@
+         */
     });
+        
 });

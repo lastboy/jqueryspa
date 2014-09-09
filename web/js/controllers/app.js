@@ -26,6 +26,20 @@ define(['app', 'common/manager', 'services/data', "directives/scrollto"], functi
                 _interval = $interval(function(){
                     if (manager.init($scope, scrolldirective, data)) {
                         $interval.cancel(_interval);
+
+                        /*
+                         @[scrap
+                            @@name menuTest
+                            @@description Top Menu Validation
+                            @@assert ok($("#menu"), "menu section is no valid or not exists")
+                         ]@
+                         
+                         @[scrap
+                            @@name menuItemsAction
+                            @@description Top Menu Actions
+                            @@jqm click("#menu a[scroll-to=" + @d.next(.menu).name + "]")
+                         ]@
+                         */
                     }
                 }, 200) ;
             }
