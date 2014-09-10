@@ -22,6 +22,10 @@ BODY {
   /* IE6-9 */
 }
 #home .header .title {
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
   width: 100%;
   height: 600px;
   text-align: center;
@@ -145,17 +149,11 @@ BODY {
   color: #2c2e35;
 }
 .footer {
-  height: 300px;
+  height: 100%;
   width: 100%;
-  display: table;
+  display: inline-block;
   text-align: center;
-  padding: 10px;
-}
-.footer .catjsabout {
-  height: 25px;
-  font-size: 10px;
-  display: table-cell;
-  vertical-align: bottom;
+  padding: 50em 0 0 0 ;
 }
 /* Navigation Links */
 nav {
@@ -190,9 +188,8 @@ nav ul li a {
   color: white;
   font-weight: 100;
   letter-spacing: 1px;
-  top: 18px;
-  position: relative;
-  display: block;
+  display: table-cell;
+  vertical-align: middle;
   height: 55px;
   width: 120px;
   outline: 0;
@@ -205,7 +202,7 @@ nav ul li a.active {
   transition: font-size 0.2s ease-in-out, background-color 0.4s ease-in-out, top 0.1s ease-in-out;
   font-size: 24px;
   font-weight: bold;
-  top: 12px;
+  top: 0;
 }
 nav ul li:hover,
 nav ul li.active {
@@ -280,7 +277,6 @@ nav ul li.active {
     color: white;
     font-weight: 100;
     letter-spacing: 1px;
-    top: 18px;
     text-decoration: none;
     outline: 0;
   }
@@ -292,7 +288,7 @@ nav ul li.active {
     transition: font-size 0.2s ease-in-out, background-color 0.4s ease-in-out, top 0.1s ease-in-out;
     background-color: #000000;
     font-size: 24px;
-    top: 12px;
+    top: 0;
     font-weight: bold;
   }
   nav ul li .fold {

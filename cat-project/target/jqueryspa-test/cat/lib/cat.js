@@ -870,7 +870,20 @@ _cat.core = function () {
         },
 
         getBaseUrl: function(url) {
-            return  ([window.location.origin, "/", (url || "")].join("") || "/");
+            var regHtml,
+                endInPage,
+                pathname,
+                result;
+
+            regHtml = "([/]?.*[/]*[/])+(.*[\\.html]?)";
+            endInPage = new RegExp(regHtml + "$");
+            pathname = window.location.pathname;
+            result = endInPage.exec(pathname);
+
+            if (result !== null) {
+                pathname = (RegExp.$1);
+            }
+            return  ([window.location.origin, pathname, (url || "")].join("") || "/");
         }
 
     };
@@ -1203,8 +1216,7 @@ _cat.core.clientmanager = function () {
             repeatIndex;
 
         scrapInfoArr = getScrapTestInfo(scrap.name[0]);
-
-        for (infoIndex in scrapInfoArr) {
+        for (infoIndex = 0; infoIndex < scrapInfoArr.length; infoIndex++) {
             scrapInfo = scrapInfoArr[infoIndex];
             repeat = scrapInfo.repeat || 1;
             for (repeatIndex = 0; repeatIndex < repeat; repeatIndex++){
@@ -2009,7 +2021,9 @@ _cat.utils.Loader = function () {
                 node.onload = function() {
                     _ready++;
                     if (_ready === _libslength) {
-                        callback.call(this);
+                        if (callback && callback.call) {
+                            callback.call(this);
+                        }
                     }
                 };
 
@@ -2272,7 +2286,8 @@ _cat.utils.Storage = function () {
 
 _cat.utils.TestsDB = function() {
 
-    var _data;
+    var _data,
+        _testnextcache = {};
 
     (function() {
         _cat.utils.AJAX.sendRequestAsync({
@@ -2360,7 +2375,7 @@ _cat.utils.TestsDB = function() {
         find : function(field) {
             var code = "JSPath.apply('" + field + "', _data);";
 
-            return new Function("JSPath", "_data", "if (JSPath) { return " + code + "} else { console.log('Missing dependency : JSPath');  }").apply(this, [(typeof JSPath !== "undefined" ? JSPath : undefined), _data]);
+            return (new Function("JSPath", "_data", "if (JSPath) { return " + code + "} else { console.log('Missing dependency : JSPath');  }").apply(this, [(typeof JSPath !== "undefined" ? JSPath : undefined), _data]) || "");
         },
         random: function(field) {
 
@@ -2374,6 +2389,22 @@ _cat.utils.TestsDB = function() {
             if (result && result.length) {
                 cell = _random(0, result.length-1);
                 return result[cell];
+            }
+
+            return result;
+        },
+        next: function(field) {
+
+            var result = this.find(field),
+                cell=0;
+
+            if (result && result.length) {
+                if (_testnextcache[field] !== undefined && _testnextcache[field] != null) {
+                    _testnextcache[field]++;
+                } else {
+                    _testnextcache[field] = 0;
+                }
+                return result[_testnextcache[field]];
             }
 
             return result;
@@ -3217,6 +3248,58 @@ _cat.plugins.sencha = function () {
         }
 
 
+    };
+
+}();
+
+var animation = false;
+
+
+_cat.plugins.vnc = function () {
+
+
+
+    return {
+
+        actions: {
+
+
+            mouseClick: function (x, y) {
+                window.rfb.mouseClick(x, y);
+            },
+
+            mouseScrollVer: function (x, y1, y2) {
+                window.rfb.mouseScrollVer(x, y1, y2);
+            },
+
+            mouseSlide: function (x1, y1, x2, y2) {
+                window.rfb.mouseSlide(x1, y1, x2, y2);
+            },
+
+            mouseLongClick: function (x1, y1) {
+                window.rfb.mouseLongClick(x1, y1);
+            },
+
+            swipeRight: function () {
+                window.rfb.swipeRight();
+            },
+
+            swipeLeft: function () {
+                window.rfb.swipeLeft();
+            },
+            back: function () {
+                window.rfb.back();
+            },
+
+            setText: function (text) {
+                window.rfb.setText(text);
+            },
+
+            home: function () {
+                window.rfb.home();
+            }
+
+        }
     };
 
 }();

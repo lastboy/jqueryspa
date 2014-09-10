@@ -61,11 +61,22 @@
     },
 
     "plugins": [
-
+        {
+            "name": "p_server",
+            "type": "webserver",
+            "action": "start",
+            "path":"../web",
+            "port": "8089"
+        }
     ],
 
     "tasks": [
-
+        {
+            "name" : "server",
+            "plugins": [
+                "p_server"
+            ]
+        }
     ]
 
 
