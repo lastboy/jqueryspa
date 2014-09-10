@@ -10,6 +10,7 @@ I used [lesscss](http://lesscss.org/) and [lesshat](http://lesshat.madebysource.
 In additional there's a basic NodeJS server for running the application.  
     
 # Demo
+[http://lastboy.github.io/apps/jqueryspa/web/app.html](http://lastboy.github.io/apps/jqueryspa/web/app.html)
 
 # How To
 
