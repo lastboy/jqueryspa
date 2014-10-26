@@ -59,7 +59,7 @@ _cat.core.declare('jqueryspa-test.js.config.bootstrapInitTest$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_f97ab996-ed1a-809a-8006-0bd9e7f17fb6",
+    "id": "scrap_0bdfd93a-1987-1258-093e-5e65a1de2836",
     "$type": "js",
     "numCommands": 1,
     "pkgName": "jqueryspa-test.js.config.bootstrapInitTest"

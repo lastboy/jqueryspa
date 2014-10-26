@@ -59,7 +59,7 @@ _cat.core.declare('jqueryspa-test.js.config.bootstrapInitTest$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_f97ab996-ed1a-809a-8006-0bd9e7f17fb6",
+    "id": "scrap_0bdfd93a-1987-1258-093e-5e65a1de2836",
     "$type": "js",
     "numCommands": 1,
     "pkgName": "jqueryspa-test.js.config.bootstrapInitTest"
@@ -171,7 +171,7 @@ _cat.core.declare('jqueryspa-test.js.controllers.app.menuTest$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_1a59f832-fac1-d9cc-58d8-a69a754e1b08",
+    "id": "scrap_1c38d95f-4b6c-d216-8c76-b3752b5765ca",
     "$type": "js",
     "numCommands": 1,
     "pkgName": "jqueryspa-test.js.controllers.app.menuTest"
@@ -266,7 +266,7 @@ _cat.core.declare('jqueryspa-test.js.controllers.app.menuItemsAction$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_d2727f0a-bfc9-494a-1cd4-3e04df454926",
+    "id": "scrap_9f56590d-21a9-b8e0-f1f9-b4fd9a5cb982",
     "$type": "js",
     "numCommands": 2,
     "pkgName": "jqueryspa-test.js.controllers.app.menuItemsAction"
