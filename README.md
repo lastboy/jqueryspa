@@ -10,7 +10,15 @@ I used [lesscss](http://lesscss.org/) and [lesshat](http://lesshat.madebysource.
 In additional there's a basic NodeJS server for running the application.  
     
 # Demo
-[http://lastboy.github.io/apps/jqueryspa/web/app.html](http://lastboy.github.io/apps/jqueryspa/web/app.html)
+
+* Running the application [http://lastboy.github.io/apps/jqueryspa/web/app.html](http://lastboy.github.io/apps/jqueryspa/web/app.html)
+
+* Running Built-In CatJS Test
+   + Clone the repository 
+   + Make sure that NodeJS is installed
+   + Install [CatJS NPM](https://www.npmjs.org/package/catjs) 
+   + Open a command line and navigate to the cat-project folder and then type: <code>catcli -s</code>
+   + Open your favorite browser and navigate to the following address: http://localhost:8080/app.html
 
 # How To
 
@@ -28,6 +36,7 @@ In additional there's a basic NodeJS server for running the application.
 # catjs built-in tests
 [CatJS](https://www.npmjs.org/package/catjs) is an open source automation framework that I'm using for testing this application.  
  Annotation within comments are placed and for creating a test deployment you need to use CatJS framework, for any additional information see: [NPM Module](https://www.npmjs.org/package/catjs), [Github](https://github.com/catjsteam)  
+
  
  
         
