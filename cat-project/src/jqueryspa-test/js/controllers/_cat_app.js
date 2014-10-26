@@ -62,7 +62,7 @@ _cat.core.declare('jqueryspa-test.js.controllers.app.menuTest$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_7a0ae839-0af2-9c76-a973-a185ef84d03b",
+    "id": "scrap_1a59f832-fac1-d9cc-58d8-a69a754e1b08",
     "$type": "js",
     "numCommands": 1,
     "pkgName": "jqueryspa-test.js.controllers.app.menuTest"
@@ -157,7 +157,7 @@ _cat.core.declare('jqueryspa-test.js.controllers.app.menuItemsAction$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_f00110d7-92f0-8c1b-77e8-9c217407681d",
+    "id": "scrap_d2727f0a-bfc9-494a-1cd4-3e04df454926",
     "$type": "js",
     "numCommands": 2,
     "pkgName": "jqueryspa-test.js.controllers.app.menuItemsAction"

@@ -1,11 +1,1288 @@
 /**
- * JSPath
- *
- * Copyright (c) 2012 Filatov Dmitry (dfilatov@yandex-team.ru)
- * With parts by Marat Dulin (mdevils@gmail.com)
- * Dual licensed under the MIT and GPL licenses:
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
- *
- * @version 0.2.10
- */(function(){function r(e){return Function("data,subst",n(t(e)))}var e={PATH:1,SELECTOR:2,OBJ_PRED:3,POS_PRED:4,LOGICAL_EXPR:5,COMPARISON_EXPR:6,MATH_EXPR:7,CONCAT_EXPR:8,UNARY_EXPR:9,POS_EXPR:10,LITERAL:11,SUBST:12},t=function(){function u(e){r=e.split(""),i=0,s=null,o=r.length;var n=a(),u=O();return u.type!==t.EOP&&I(u),n}function a(){N()||I(O());var t=!1;T("^")&&(O(),t=!0);var n=[],r;while(r=f())n.push(r);return{type:e.PATH,fromRoot:t,parts:n}}function f(){if(C())return l();if(T("["))return c();if(T("{"))return h();if(T("("))return x()}function l(){var n=O().val,r=L(),i;if(T("*")||r.type===t.ID||r.type===t.STR)i=O().val;return{type:e.SELECTOR,selector:n,prop:i}}function c(){k("[");var t=b();return k("]"),{type:e.POS_PRED,arg:t}}function h(){k("{");var t=p();return k("}"),{type:e.OBJ_PRED,arg:t}}function p(){var t=d(),n;while(T("||"))O(),(n||(n=[t])).push(d());return n?{type:e.LOGICAL_EXPR,op:"||",args:n}:t}function d(){var t=v(),n;while(T("&&"))O(),(n||(n=[t])).push(v());return n?{type:e.LOGICAL_EXPR,op:"&&",args:n}:t}function v(){var t=m();while(T("==")||T("!=")||T("===")||T("!==")||T("^=")||T("^==")||T("$==")||T("$=")||T("*==")||T("*="))t={type:e.COMPARISON_EXPR,op:O().val,args:[t,v()]};return t}function m(){var t=g();while(T("<")||T(">")||T("<=")||T(">="))t={type:e.COMPARISON_EXPR,op:O().val,args:[t,m()]};return t}function g(){var t=y();while(T("+")||T("-"))t={type:e.MATH_EXPR,op:O().val,args:[t,g()]};return t}function y(){var t=w();while(T("*")||T("/")||T("%"))t={type:e.MATH_EXPR,op:O().val,args:[t,y()]};return t}function b(){if(T(":"))return O(),{type:e.POS_EXPR,toIdx:w()};var t=w();return T(":")?(O(),T("]")?{type:e.POS_EXPR,fromIdx:t}:{type:e.POS_EXPR,fromIdx:t,toIdx:w()}):{type:e.POS_EXPR,idx:t}}function w(){return T("!")||T("-")?{type:e.UNARY_EXPR,op:O().val,arg:w()}:E()}function E(){var n=L(),r=n.type;return r===t.STR||r===t.NUM||r===t.BOOL?{type:e.LITERAL,val:O().val}:r===t.ID&&n.val[0]==="$"?{type:e.SUBST,name:O().val.substr(1)}:N()?a():T("(")?S():I(O())}function S(){k("(");var e=p();return k(")"),e}function x(){k("(");var t=a(),n;while(T("|"))O(),(n||(n=[t])).push(a());return k(")"),n?{type:e.CONCAT_EXPR,op:"|",args:n}:t}function T(e){var n=L();return n.type===t.PUNCT&&n.val===e}function N(){return C()||T("^")}function C(){var e=L();if(e.type===t.PUNCT){var n=e.val;return n==="."||n===".."}return!1}function k(e){var n=O();(n.type!==t.PUNCT||n.val!==e)&&I(n)}function L(){if(s!==null)return s;var e=i;return s=A(),i=e,s}function A(){while(_(r[i]))++i;if(i>=o)return{type:t.EOP,range:[i,i]};var e=F();if(e||(e=H())||(e=B())||(e=j()))return e;I({val:r[i],range:[i,i]})}function O(){var e;return s?(i=s.range[1],e=s,s=null,e):A()}function M(e){return"0123456789".indexOf(e)>=0}function _(e){return e===" "}function D(e){return e==="$"||e==="_"||e>="a"&&e<="z"||e>="A"&&e<="Z"}function P(e){return D(e)||e>="0"&&e<="9"}function H(){var e=r[i];if(!D(e))return;var n=i,s=e;while(++i<o){e=r[i];if(!P(e))break;s+=e}return s==="true"||s==="false"?{type:t.BOOL,val:s==="true",range:[n,i]}:{type:t.ID,val:s,range:[n,i]}}function B(){if(r[i]!=='"')return;var e=++i,n="",s;while(i<o){s=r[i++];if(s==='"')break;n+=s}return{type:t.STR,val:n,range:[e,i]}}function j(){var e=i,n=r[i],s=n===".";if(s||M(n)){var u=n;while(++i<o){n=r[i];if(n==="."){if(s)return;s=!0}else if(!M(n))break;u+=n}return{type:t.NUM,val:s?parseFloat(u):parseInt(u,10),range:[e,i]}}}function F(){var e=i,n=r[i],s=r[i+1];if(n==="."){if(M(s))return;return r[++i]==="."?{type:t.PUNCT,val:"..",range:[e,++i]}:{type:t.PUNCT,val:".",range:[e,i]}}if(s==="="){var o=r[i+2];if(o==="="){if("=!^$*".indexOf(n)>=0)return{type:t.PUNCT,val:n+s+o,range:[e,i+=3]}}else if("=!^$*><".indexOf(n)>=0)return{type:t.PUNCT,val:n+s,range:[e,i+=2]}}if(n===s&&(n==="|"||n==="&"))return{type:t.PUNCT,val:n+s,range:[e,i+=2]};if(":{}()[]^+-*/%!><|".indexOf(n)>=0)return{type:t.PUNCT,val:n,range:[e,++i]}}function I(e){e.type===t.EOP&&q(e,n.UNEXP_EOP),q(e,n.UNEXP_TOKEN,e.val)}function q(e,t){var n=Array.prototype.slice.call(arguments,2),r=t.replace(/%(\d)/g,function(e,t){return n[t]||""}),i=new Error(r);throw i.column=e.range[0],i}var t={ID:1,NUM:2,STR:3,BOOL:4,PUNCT:5,EOP:6},n={UNEXP_TOKEN:'Unexpected token "%0"',UNEXP_EOP:"Unexpected end of path"},r,i,s,o;return u}(),n=function(){function s(){if(i.length)return i.shift();var e="v"+ ++r;return n.push(e),e}function o(){var e=arguments,t=e.length;while(t--)i.push(e[t])}function u(e){return t=[],n=["res"],r=0,i=[],a(e,"res","data",!0),t.unshift("var ",Array.isArray?"isArr = Array.isArray":'toStr = Object.prototype.toString, isArr = function(o) { return toStr.call(o) === "[object Array]"; }',",",n.join(","),";","isArr(data) || (data = [data]);"),t.push("return res;"),t.join("")}function a(n,r,i,s){var o=n.parts,u=0,a=o.length,p=!0;t.push(r,"=",n.fromRoot?"data":i,";");while(u<a){var d=o[u++];switch(d.type){case e.SELECTOR:d.selector===".."?l(d,r,r):f(d,r,r),p=!0;break;case e.OBJ_PRED:c(d,r,r);break;case e.POS_PRED:p=h(d,r,r)!==!1||!s;break;case e.CONCAT_EXPR:b(d,r,r),p=!0}}p||t.push(r,"=",r,"[0];")}function f(e,n,r){if(e.prop){var i=w(e.prop),u=s(),a=s(),f=s(),l=s(),c=s(),h=s(),p=s();t.push(u,"= [],",a,"= 0,",f,"=",r,".length,",p,"= [];","while(",a,"<",f,") {",l,"=",r,"[",a,"++];","if(",l,"!= null) {"),e.prop==="*"?(t.push("if(typeof ",l,'=== "object") {',"if(isArr(",l,")) {",u,"=",u,".concat(",l,");","}","else {","for(",c," in ",l,") {","if(",l,".hasOwnProperty(",c,")) {",h,"=",l,"[",c,"];"),E(u,h),t.push("}","}","}","}")):(t.push(h,"=",l,"[",i,"];"),E(u,h,p,f)),t.push("}","}",n,"=",f,"> 1 &&",p,".length?",p,".length > 1?",u,".concat.apply(",u,",",p,") :",u,".concat(",p,"[0]) :",u,";"),o(u,a,f,l,c,h,p)}}function l(e,n,r){var i=e.prop,u=s(),a=s(),f=s(),l=s(),c=s(),h=s(),p=s(),d=s();t.push(u,"=",r,".slice(),",d,"= [];","while(",u,".length) {",a,"=",u,".shift();"),i?t.push("if(typeof ",a,'=== "object" &&',a,") {"):t.push("if(typeof ",a,"!= null) {"),t.push(f,"= [];","if(isArr(",a,")) {",l,"= 0,",p,"=",a,".length;","while(",l,"<",p,") {",h,"=",a,"[",l,"++];"),i&&t.push("if(typeof ",h,'=== "object") {'),E(f,h),i&&t.push("}"),t.push("}","}","else {"),i?i!=="*"&&(t.push(h,"=",a,'["'+i+'"];'),E(d,h)):(E(d,a),t.push("if(typeof ",a,'=== "object") {')),t.push("for(",c," in ",a,") {","if(",a,".hasOwnProperty(",c,")) {",h,"=",a,"[",c,"];"),E(f,h),i==="*"&&E(d,h),t.push("}","}"),i||t.push("}"),t.push("}",f,".length &&",u,".unshift.apply(",u,",",f,");","}","}",n,"=",d,";"),o(u,a,f,l,c,h,p,d)}function c(e,n,r){var i=s(),u=s(),a=s(),f=s(),l=s();t.push(i,"= [];",u,"= 0;",a,"=",r,".length;","while(",u,"<",a,") {",l,"=",r,"[",u,"++];"),p(e.arg,f,l),t.push(x(e.arg,f),"&&",i,".push(",l,");","}",n,"=",i,";"),o(i,u,a,l,f)}function h(e,n,r){var i=e.arg,u,a;if(i.idx){var f=s();return p(i.idx,f,r),t.push(f,"< 0 && (",f,"=",r,".length +",f,");",n,"=",r,"[",f,"] == null? [] : [",r,"[",f,"]];"),o(f),!1}i.fromIdx?i.toIdx?(p(i.fromIdx,u=s(),r),p(i.toIdx,a=s(),r),t.push(n,"=",r,".slice(",u,",",a,");"),o(u,a)):(p(i.fromIdx,u=s(),r),t.push(n,"=",r,".slice(",u,");"),o(u)):(p(i.toIdx,a=s(),r),t.push(n,"=",r,".slice(0,",a,");"),o(a))}function p(n,r,i){switch(n.type){case e.PATH:a(n,r,"["+i+"]");break;case e.COMPARISON_EXPR:d(n,r,i);break;case e.MATH_EXPR:g(n,r,i);break;case e.LOGICAL_EXPR:m(n,r,i);break;case e.UNARY_EXPR:y(n,r,i);break;case e.LITERAL:var s=n.val;t.push(r,"=",typeof s=="string"?w(s):s,";");break;case e.SUBST:t.push(r,"= subst.",n.name,";")}}function d(n,r,i){var u=s(),a=s(),f=s(),l=s(),c=s(),h=s(),d=s(),m=s(),g=n.args[0],y=n.args[1];t.push(r,"= false;"),p(g,u,i),p(y,a,i);var b=g.type===e.PATH,w=y.type===e.LITERAL;t.push(f,"="),b?t.push("true;"):t.push("isArr(",u,");"),t.push(l,"="),w?t.push("false;"):t.push("isArr(",a,");"),t.push("if("),b||t.push(f,"&&"),t.push(u,".length === 1) {",u,"=",u,"[0];",f,"= false;","}"),w||t.push("if(",l,"&&",a,".length === 1) {",a,"=",a,"[0];",l,"= false;","}"),t.push(c,"= 0;","if(",f,") {",d,"=",u,".length;"),w||(t.push("if(",l,") {",m,"=",a,".length;","while(",c,"<",d,"&& !",r,") {",h,"= 0;","while(",h,"<",m,") {"),v(n.op,[u,"[",c,"]"].join(""),[a,"[",h,"]"].join("")),t.push(r,"= true;","break;","}","++",h,";","}","++",c,";","}","}","else {")),t.push("while(",c,"<",d,") {"),v(n.op,[u,"[",c,"]"].join(""),a),t.push(r,"= true;","break;","}","++",c,";","}"),w||t.push("}"),t.push("}"),w||(t.push("else if(",l,") {",m,"=",a,".length;","while(",c,"<",m,") {"),v(n.op,u,[a,"[",c,"]"].join("")),t.push(r,"= true;","break;","}","++",c,";","}","}")),t.push("else {",r,"=",N[n.op](u,a),";","}"),o(u,a,f,l,c,h,d,m)}function v(e,n,r){t.push("if(",N[e](n,r),") {")}function m(e,n,r){var i=[],u=e.args,a=u.length,f=0,l;t.push(n,"= false;");switch(e.op){case"&&":while(f<a)i.push(l=s()),p(u[f],l,r),t.push("if(",x(u[f++],l),") {");t.push(n,"= true;");break;case"||":while(f<a)i.push(l=s()),p(u[f],l,r),t.push("if(",x(u[f],l),") {",n,"= true;","}"),f++ +1<a&&t.push("else {");--a}while(a--)t.push("}");o.apply(null,i)}function g(e,n,r){var i=s(),u=s(),a=e.args;p(a[0],i,r),p(a[1],u,r),t.push(n,"=",N[e.op](T(a[0],i),T(a[1],u)),";"),o(i,u)}function y(e,n,r){var i=s(),u=e.arg;p(u,i,r);switch(e.op){case"!":t.push(n,"= !",x(u,i)+";");break;case"-":t.push(n,"= -",T(u,i)+";")}o(i)}function b(e,n,r){var i=[],u=e.args,f=u.length,l=0;while(l<f)i.push(s()),a(u[l],i[l++],r);t.push(n,"= (",n,"= []).concat.call(",n,",",i.join(","),");"),o.apply(null,i)}function w(e){return"'"+e.replace(/\\/g,"\\\\").replace(/'/g,"\\'")+"'"}function E(e,n,r,i){t.push("if(",n,"!= null) {","if(isArr(",n,")) {"),r&&(t.push(i,"> 1?"),S(r,n),t.push(":")),t.push(e,"=",e,".concat(",n,");","}","else {"),r&&t.push("if(",r,".length) {",e,"=",e,".concat.apply(",e,",",r,");",r,"= [];","}"),S(e,n),t.push("}","}")}function S(e,n){t.push(e,".length?",e,".push(",n,") :",e,"[0] =",n)}function x(t,n){switch(t.type){case e.LOGICAL_EXPR:return n;case e.LITERAL:return"!!"+n;case e.PATH:return n+".length > 0";default:return["(typeof ",n,'=== "boolean"?',n,":","isArr(",n,")?",n,".length > 0 : !!",n,")"].join("")}}function T(t,n){switch(t.type){case e.LITERAL:return n;case e.PATH:return n+"[0]";default:return["(isArr(",n,")?",n,"[0] : ",n,")"].join("")}}var t,n,r,i,N={"===":function(e,t){return e+"==="+t},"==":function(e,t){return["typeof ",e,'=== "string" && typeof ',t,'=== "string"?',e,".toLowerCase() ===",t,".toLowerCase() :"+e,"==",t].join("")},">=":function(e,t){return e+">="+t},">":function(e,t){return e+">"+t},"<=":function(e,t){return e+"<="+t},"<":function(e,t){return e+"<"+t},"!==":function(e,t){return e+"!=="+t},"!=":function(e,t){return e+"!="+t},"^==":function(e,t){return["typeof ",e,'=== "string" && typeof ',t,'=== "string" &&',e,".indexOf(",t,") === 0"].join("")},"^=":function(e,t){return[e,"!= null &&",t,"!= null &&",e,".toString().toLowerCase().indexOf(",t,".toString().toLowerCase()) === 0"].join("")},"$==":function(e,t){return["typeof ",e,'=== "string" && typeof ',t,'=== "string" &&',e,".lastIndexOf(",t,") ===",e,".length -",t,".length"].join("")},"$=":function(e,t){return[e,"!= null &&",t,"!= null &&","(",e,"=",e,".toLowerCase().toString()).indexOf(","(",t,"=",t,".toLowerCase().toLowerCase())) ===",e,".length -",t,".length"].join("")},"*==":function(e,t){return["typeof ",e,'=== "string" && typeof ',t,'=== "string" &&',e,".indexOf(",t,") > -1"].join("")},"*=":function(e,t){return[e,"!= null && ",t,"!= null &&",e,".toString().toLowerCase().indexOf(",t,".toString().toLowerCase()) > -1"].join("")},"+":function(e,t){return e+"+"+t},"-":function(e,t){return e+"-"+t},"*":function(e,t){return e+"*"+t},"/":function(e,t){return e+"/"+t},"%":function(e,t){return e+"%"+t}};return u}(),i={},s=[],o={cacheSize:100},u={cacheSize:function(e,t){if(t<e&&s.length>t){var n=s.splice(0,s.length-t),r=n.length;while(r--)delete i[n[r]]}}},a=function(e,t,n){return i[e]||(i[e]=r(e),s.push(e)>o.cacheSize&&delete i[s.shift()]),i[e](t,n||{})};a.version="0.2.10",a.params=function(e){if(!arguments.length)return o;for(var t in e)e.hasOwnProperty(t)&&(u[t]&&u[t](o[t],e[t]),o[t]=e[t])},a.compile=r,a.apply=a,typeof exports=="object"?module.exports=a:typeof modules=="object"?modules.define("jspath",function(e){e(a)}):typeof define=="function"?define(function(e,t,n){n.exports=a}):JSPath=a})();
+* JSPath
+*
+* Copyright (c) 2012 Filatov Dmitry (dfilatov@yandex-team.ru)
+* With parts by Marat Dulin (mdevils@gmail.com)
+* Dual licensed under the MIT and GPL licenses:
+* http://www.opensource.org/licenses/mit-license.php
+* http://www.gnu.org/licenses/gpl.html
+*
+* @version 0.2.12
+*/
+
+(function() {
+
+var SYNTAX = {
+        PATH            : 1,
+        SELECTOR        : 2,
+        OBJ_PRED        : 3,
+        POS_PRED        : 4,
+        LOGICAL_EXPR    : 5,
+        COMPARISON_EXPR : 6,
+        MATH_EXPR       : 7,
+        CONCAT_EXPR     : 8,
+        UNARY_EXPR      : 9,
+        POS_EXPR        : 10,
+        LITERAL         : 11,
+        SUBST           : 12
+    };
+
+// parser
+
+var parse = (function() {
+
+    var TOKEN = {
+            ID    : 1,
+            NUM   : 2,
+            STR   : 3,
+            BOOL  : 4,
+            PUNCT : 5,
+            EOP   : 6
+        },
+        MESSAGES = {
+            UNEXP_TOKEN : 'Unexpected token "%0"',
+            UNEXP_EOP   : 'Unexpected end of path'
+        };
+
+    var path, idx, buf, len;
+
+    function parse(_path) {
+        path = _path.split('');
+        idx = 0;
+        buf = null;
+        len = path.length;
+
+        var res = parsePath(),
+            token = lex();
+
+        if(token.type !== TOKEN.EOP) {
+            throwUnexpected(token);
+        }
+
+        return res;
+    }
+
+    function parsePath() {
+        if(!matchPath()) {
+            throwUnexpected(lex());
+        }
+
+        var fromRoot = false;
+
+        if(match('^')) {
+            lex();
+            fromRoot = true;
+        }
+
+        var parts = [],
+            part;
+        while(part = parsePathPart()) {
+            parts.push(part);
+        }
+
+        return {
+            type     : SYNTAX.PATH,
+            fromRoot : fromRoot,
+            parts    : parts
+        };
+    }
+
+    function parsePathPart() {
+        if(matchSelector()) {
+            return parseSelector();
+        }
+
+        if(match('[')) {
+            return parsePosPredicate();
+        }
+
+        if(match('{')) {
+            return parseObjectPredicate();
+        }
+
+        if(match('(')) {
+            return parseConcatExpr();
+        }
+    }
+
+    function parseSelector() {
+        var selector = lex().val,
+            token = lookahead(),
+            prop;
+
+        if(match('*') || token.type === TOKEN.ID || token.type === TOKEN.STR) {
+            prop = lex().val;
+        }
+
+        return {
+            type     : SYNTAX.SELECTOR,
+            selector : selector,
+            prop     : prop
+        };
+    }
+
+    function parsePosPredicate() {
+        expect('[');
+        var expr = parsePosExpr();
+        expect(']');
+
+        return {
+            type : SYNTAX.POS_PRED,
+            arg  : expr
+        };
+    }
+
+    function parseObjectPredicate() {
+        expect('{');
+        var expr = parseLogicalORExpr();
+        expect('}');
+
+        return {
+            type : SYNTAX.OBJ_PRED,
+            arg  : expr
+        };
+    }
+
+    function parseLogicalORExpr() {
+        var expr = parseLogicalANDExpr(),
+            operands;
+
+        while(match('||')) {
+            lex();
+            (operands || (operands = [expr])).push(parseLogicalANDExpr());
+        }
+
+        return operands?
+            {
+                type : SYNTAX.LOGICAL_EXPR,
+                op   : '||',
+                args : operands
+            } :
+            expr;
+    }
+
+    function parseLogicalANDExpr() {
+        var expr = parseEqualityExpr(),
+            operands;
+
+        while(match('&&')) {
+            lex();
+            (operands || (operands = [expr])).push(parseEqualityExpr());
+        }
+
+        return operands?
+            {
+                type : SYNTAX.LOGICAL_EXPR,
+                op   : '&&',
+                args : operands
+            } :
+            expr;
+    }
+
+    function parseEqualityExpr() {
+        var expr = parseRelationalExpr();
+
+        while(match('==') || match('!=') || match('===') || match('!==') ||
+                match('^=') || match('^==') || match('$==') || match('$=') || match('*==') || match('*=')) {
+            expr = {
+                type : SYNTAX.COMPARISON_EXPR,
+                op   : lex().val,
+                args : [expr, parseEqualityExpr()]
+            };
+        }
+
+        return expr;
+    }
+
+    function parseRelationalExpr() {
+        var expr = parseAdditiveExpr();
+
+        while(match('<') || match('>') || match('<=') || match('>=')) {
+            expr = {
+                type : SYNTAX.COMPARISON_EXPR,
+                op   : lex().val,
+                args : [expr, parseRelationalExpr()]
+            };
+        }
+
+        return expr;
+    }
+
+    function parseAdditiveExpr() {
+        var expr = parseMultiplicativeExpr();
+
+        while(match('+') || match('-')) {
+            expr = {
+                type : SYNTAX.MATH_EXPR,
+                op   : lex().val,
+                args : [expr, parseAdditiveExpr()]
+            };
+        }
+
+        return expr;
+    }
+
+    function parseMultiplicativeExpr() {
+        var expr = parseUnaryExpr();
+
+        while(match('*') || match('/') || match('%')) {
+            expr = {
+                type : SYNTAX.MATH_EXPR,
+                op   : lex().val,
+                args : [expr, parseMultiplicativeExpr()]
+            };
+        }
+
+        return expr;
+    }
+
+    function parsePosExpr() {
+        if(match(':')) {
+            lex();
+            return {
+                type  : SYNTAX.POS_EXPR,
+                toIdx : parseUnaryExpr()
+            };
+        }
+
+        var fromExpr = parseUnaryExpr();
+        if(match(':')) {
+            lex();
+            if(match(']')) {
+                return {
+                    type    : SYNTAX.POS_EXPR,
+                    fromIdx : fromExpr
+                };
+            }
+
+            return {
+                type    : SYNTAX.POS_EXPR,
+                fromIdx : fromExpr,
+                toIdx   : parseUnaryExpr()
+            };
+        }
+
+        return {
+            type : SYNTAX.POS_EXPR,
+            idx  : fromExpr
+        };
+    }
+
+    function parseUnaryExpr() {
+        if(match('!') || match('-')) {
+            return {
+                type : SYNTAX.UNARY_EXPR,
+                op   : lex().val,
+                arg  : parseUnaryExpr()
+            };
+        }
+
+        return parsePrimaryExpr();
+    }
+
+    function parsePrimaryExpr() {
+        var token = lookahead(),
+            type = token.type;
+
+        if(type === TOKEN.STR || type === TOKEN.NUM || type === TOKEN.BOOL) {
+            return {
+                type : SYNTAX.LITERAL,
+                val  : lex().val
+            };
+        }
+
+        if(type === TOKEN.ID && token.val[0] === '$') {
+            return {
+                type : SYNTAX.SUBST,
+                name : lex().val.substr(1)
+            };
+        }
+
+        if(matchPath()) {
+            return parsePath();
+        }
+
+        if(match('(')) {
+            return parseGroupExpr();
+        }
+
+        return throwUnexpected(lex());
+    }
+
+    function parseGroupExpr() {
+        expect('(');
+        var expr = parseLogicalORExpr();
+        expect(')');
+        return expr;
+    }
+
+    function parseConcatExpr() {
+        expect('(');
+
+        var expr = parsePath(),
+            operands;
+
+        while(match('|')) {
+            lex();
+            (operands || (operands = [expr])).push(parsePath());
+        }
+
+        expect(')');
+
+        return operands?
+            {
+                type : SYNTAX.CONCAT_EXPR,
+                op   : '|',
+                args : operands
+            } :
+            expr;
+    }
+
+    function match(val) {
+        var token = lookahead();
+        return token.type === TOKEN.PUNCT && token.val === val;
+    }
+
+    function matchPath() {
+        return matchSelector() || match('^');
+    }
+
+    function matchSelector() {
+        var token = lookahead();
+        if(token.type === TOKEN.PUNCT) {
+            var val = token.val;
+            return val === '.' || val === '..';
+        }
+
+        return false;
+    }
+
+    function expect(val) {
+        var token = lex();
+        if(token.type !== TOKEN.PUNCT || token.val !== val) {
+            throwUnexpected(token);
+        }
+    }
+
+    function lookahead() {
+        if(buf !== null) {
+            return buf;
+        }
+
+        var pos = idx;
+        buf = advance();
+        idx = pos;
+
+        return buf;
+    }
+
+    function advance() {
+        while(isWhiteSpace(path[idx])) {
+            ++idx;
+        }
+
+        if(idx >= len) {
+            return {
+                type  : TOKEN.EOP,
+                range : [idx, idx]
+            };
+        }
+
+        var token = scanPunctuator();
+        if(token ||
+                (token = scanId()) ||
+                (token = scanString()) ||
+                (token = scanNumeric())) {
+            return token;
+        }
+
+        throwUnexpected({ val : path[idx], range : [idx, idx] });
+    }
+
+    function lex() {
+        var token;
+
+        if(buf) {
+            idx = buf.range[1];
+            token = buf;
+            buf = null;
+            return token;
+        }
+
+        return advance();
+    }
+
+    function isDigit(ch) {
+        return '0123456789'.indexOf(ch) >= 0;
+    }
+
+    function isWhiteSpace(ch) {
+        return ch === ' ';
+    }
+
+    function isIdStart(ch) {
+        return (ch === '$') || (ch === '_') || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
+    }
+
+    function isIdPart(ch) {
+        return isIdStart(ch) || (ch >= '0' && ch <= '9');
+    }
+
+    function scanId() {
+        var ch = path[idx];
+
+        if(!isIdStart(ch)) {
+            return;
+        }
+
+        var start = idx,
+            id = ch;
+
+        while(++idx < len) {
+            ch = path[idx];
+            if(!isIdPart(ch)) {
+                break;
+            }
+            id += ch;
+        }
+
+        return id === 'true' || id === 'false'?
+            {
+                type  : TOKEN.BOOL,
+                val   : id === 'true',
+                range : [start, idx]
+            } :
+            {
+                type  : TOKEN.ID,
+                val   : id,
+                range : [start, idx]
+            };
+    }
+
+    function scanString() {
+        if(path[idx] !== '"') {
+            return;
+        }
+
+        var start = ++idx,
+            str = '',
+            ch;
+
+        while(idx < len) {
+            ch = path[idx++];
+            if(ch === '"') {
+                break;
+            }
+            str += ch;
+        }
+
+        return {
+            type  : TOKEN.STR,
+            val   : str,
+            range : [start, idx]
+        };
+    }
+
+    function scanNumeric() {
+        var start = idx,
+            ch = path[idx],
+            isFloat = ch === '.';
+
+        if(isFloat || isDigit(ch)) {
+            var num = ch;
+            while(++idx < len) {
+                ch = path[idx];
+                if(ch === '.') {
+                    if(isFloat) {
+                        return;
+                    }
+                    isFloat = true;
+                }
+                else if(!isDigit(ch)) {
+                    break;
+                }
+
+                num += ch;
+            }
+
+            return {
+                type  : TOKEN.NUM,
+                val   : isFloat? parseFloat(num) : parseInt(num, 10),
+                range : [start, idx]
+            };
+        }
+    }
+
+    function scanPunctuator() {
+        var start = idx,
+            ch1 = path[idx],
+            ch2 = path[idx + 1];
+
+        if(ch1 === '.') {
+            if(isDigit(ch2)) {
+                return;
+            }
+
+            return path[++idx] === '.'?
+                {
+                    type  : TOKEN.PUNCT,
+                    val   : '..',
+                    range : [start, ++idx]
+                } :
+                {
+                    type  : TOKEN.PUNCT,
+                    val   : '.',
+                    range : [start, idx]
+                };
+        }
+
+        if(ch2 === '=') {
+            var ch3 = path[idx + 2];
+            if(ch3 === '=') {
+                if('=!^$*'.indexOf(ch1) >= 0) {
+                    return {
+                        type  : TOKEN.PUNCT,
+                        val   : ch1 + ch2 + ch3,
+                        range : [start, idx += 3]
+                    };
+                }
+            }
+            else if('=!^$*><'.indexOf(ch1) >= 0) {
+                return {
+                    type  : TOKEN.PUNCT,
+                    val   : ch1 + ch2,
+                    range : [start, idx += 2]
+                };
+            }
+        }
+
+        if(ch1 === ch2 && (ch1 === '|' || ch1 === '&')) {
+            return {
+                type  : TOKEN.PUNCT,
+                val   : ch1 + ch2,
+                range : [start, idx += 2]
+            };
+        }
+
+        if(':{}()[]^+-*/%!><|'.indexOf(ch1) >= 0) {
+            return {
+                type  : TOKEN.PUNCT,
+                val   : ch1,
+                range : [start, ++idx]
+            };
+        }
+    }
+
+    function throwUnexpected(token) {
+        if(token.type === TOKEN.EOP) {
+            throwError(token, MESSAGES.UNEXP_EOP);
+        }
+
+        throwError(token, MESSAGES.UNEXP_TOKEN, token.val);
+    }
+
+    function throwError(token, messageFormat) {
+        var args = Array.prototype.slice.call(arguments, 2),
+            msg = messageFormat.replace(
+                /%(\d)/g,
+                function(_, idx) {
+                    return args[idx] || '';
+                }),
+            error = new Error(msg);
+
+        error.column = token.range[0];
+
+        throw error;
+    }
+
+    return parse;
+})();
+
+// translator
+
+var translate = (function() {
+
+    var body, vars, lastVarId, unusedVars;
+
+    function acquireVar() {
+        if(unusedVars.length) {
+            return unusedVars.shift();
+        }
+
+        var varName = 'v' + ++lastVarId;
+        vars.push(varName);
+        return varName;
+    }
+
+    function releaseVars() {
+        var args = arguments, i = args.length;
+        while(i--) {
+            unusedVars.push(args[i]);
+        }
+    }
+
+    function translate(ast) {
+        body = [];
+        vars = ['res'];
+        lastVarId = 0;
+        unusedVars = [];
+
+        translatePath(ast, 'res', 'data', true);
+
+        body.unshift(
+            'var ',
+            Array.isArray?
+                'isArr = Array.isArray' :
+                'toStr = Object.prototype.toString, isArr = function(o) { return toStr.call(o) === "[object Array]"; }',
+                ',', vars.join(','), ';',
+            'isArr(data) || (data = [data]);');
+
+        body.push('return res;');
+
+        return body.join('');
+    }
+
+    function translatePath(path, dest, ctx, isTopLevel) {
+        var parts = path.parts,
+            i = 0, len = parts.length,
+            isResArray = true;
+
+        body.push(dest, '=', path.fromRoot? 'data' : ctx, ';');
+
+        while(i < len) {
+            var item = parts[i++];
+            switch(item.type) {
+                case SYNTAX.SELECTOR:
+                    item.selector === '..'?
+                        translateDescendantSelector(item, dest, dest) :
+                        translateSelector(item, dest, dest);
+                    isResArray = true;
+                    break;
+
+                case SYNTAX.OBJ_PRED:
+                    translateObjectPredicate(item, dest, dest);
+                    break;
+
+                case SYNTAX.POS_PRED:
+                    isResArray = translatePosPredicate(item, dest, dest) !== false || !isTopLevel;
+                    break;
+
+                case SYNTAX.CONCAT_EXPR:
+                    translateConcatExpr(item, dest, dest);
+                    isResArray = true;
+                    break;
+            }
+        }
+
+        isResArray || body.push(dest, '=', dest, '[0];');
+    }
+
+    function translateSelector(sel, dest, ctx) {
+        if(sel.prop) {
+            var propStr = escapeStr(sel.prop),
+                res = acquireVar(), i = acquireVar(), len = acquireVar(),
+                curCtx = acquireVar(),
+                j = acquireVar(), val = acquireVar(), tmpArr = acquireVar();
+
+            body.push(
+                res, '= [],', i, '= 0,', len, '=', ctx, '.length,', tmpArr, '= [];',
+                'while(', i, '<', len, ') {',
+                    curCtx, '=', ctx, '[', i, '++];',
+                    'if(', curCtx, '!= null) {');
+            if(sel.prop === '*') {
+                body.push(
+                        'if(typeof ', curCtx, '=== "object") {',
+                            'if(isArr(', curCtx, ')) {',
+                                res, '=', res, '.concat(', curCtx, ');',
+                            '}',
+                            'else {',
+                                'for(', j, ' in ', curCtx, ') {',
+                                    'if(', curCtx, '.hasOwnProperty(', j, ')) {',
+                                        val, '=', curCtx, '[', j, '];');
+                                        inlineAppendToArray(res, val);
+                    body.push(
+                                    '}',
+                                '}',
+                            '}',
+                        '}');
+            }
+            else {
+                body.push(
+                        val, '=', curCtx, '[', propStr, '];');
+                        inlineAppendToArray(res, val, tmpArr, len);
+            }
+            body.push(
+                    '}',
+                '}',
+                dest, '=', len, '> 1 &&', tmpArr, '.length?', tmpArr, '.length > 1?',
+                    res, '.concat.apply(', res, ',', tmpArr, ') :', res, '.concat(', tmpArr, '[0]) :', res, ';');
+
+            releaseVars(res, i, len, curCtx, j, val, tmpArr);
+        }
+    }
+
+    function translateDescendantSelector(sel, dest, baseCtx) {
+        var prop = sel.prop,
+            ctx = acquireVar(), curCtx = acquireVar(), childCtxs = acquireVar(),
+            i = acquireVar(), j = acquireVar(), val = acquireVar(),
+            len = acquireVar(), res = acquireVar();
+
+        body.push(
+            ctx, '=', baseCtx, '.slice(),', res, '= [];',
+            'while(', ctx, '.length) {',
+                curCtx, '=', ctx, '.shift();');
+        prop?
+            body.push(
+                'if(typeof ', curCtx, '=== "object" &&', curCtx, ') {') :
+            body.push(
+                'if(typeof ', curCtx, '!= null) {');
+        body.push(
+                    childCtxs, '= [];',
+                    'if(isArr(', curCtx, ')) {',
+                        i, '= 0,', len, '=', curCtx, '.length;',
+                        'while(', i, '<', len, ') {',
+                            val, '=', curCtx, '[', i, '++];');
+        prop && body.push(
+                            'if(typeof ', val, '=== "object") {');
+                                inlineAppendToArray(childCtxs, val);
+        prop && body.push(
+                            '}');
+        body.push(
+                        '}',
+                    '}',
+                    'else {');
+        if(prop) {
+            if(prop !== '*') {
+                body.push(
+                        val, '=', curCtx, '["' + prop + '"];');
+                        inlineAppendToArray(res, val);
+            }
+        }
+        else {
+                        inlineAppendToArray(res, curCtx);
+            body.push(
+                        'if(typeof ', curCtx, '=== "object") {');
+        }
+
+        body.push(
+                            'for(', j, ' in ', curCtx, ') {',
+                                'if(', curCtx, '.hasOwnProperty(', j, ')) {',
+                                    val, '=', curCtx, '[', j, '];');
+                                    inlineAppendToArray(childCtxs, val);
+                                    prop === '*' && inlineAppendToArray(res, val);
+        body.push(
+                                '}',
+                            '}');
+        prop || body.push(
+                        '}');
+        body.push(
+                    '}',
+                    childCtxs, '.length &&', ctx, '.unshift.apply(', ctx, ',', childCtxs, ');',
+                '}',
+            '}',
+            dest, '=', res, ';');
+
+        releaseVars(ctx, curCtx, childCtxs, i, j, val, len, res);
+    }
+
+    function translateObjectPredicate(expr, dest, ctx) {
+        var resVar = acquireVar(), i = acquireVar(), len = acquireVar(),
+            cond = acquireVar(), curItem = acquireVar();
+
+        body.push(
+            resVar, '= [];',
+            i, '= 0;',
+            len, '=', ctx, '.length;',
+            'while(', i, '<', len, ') {',
+                curItem, '=', ctx, '[', i, '++];');
+                translateExpr(expr.arg, cond, curItem);
+        body.push(
+                convertToBool(expr.arg, cond), '&&', resVar, '.push(', curItem, ');',
+            '}',
+            dest, '=', resVar, ';');
+
+        releaseVars(resVar, i, len, curItem, cond);
+    }
+
+    function translatePosPredicate(item, dest, ctx) {
+        var arrayExpr = item.arg, fromIdx, toIdx;
+        if(arrayExpr.idx) {
+            var idx = acquireVar();
+            translateExpr(arrayExpr.idx, idx, ctx);
+            body.push(
+                idx, '< 0 && (', idx, '=', ctx, '.length +', idx, ');',
+                dest, '=', ctx, '[', idx, '] == null? [] : [', ctx, '[', idx, ']];');
+            releaseVars(idx);
+            return false;
+        }
+        else if(arrayExpr.fromIdx) {
+            if(arrayExpr.toIdx) {
+                translateExpr(arrayExpr.fromIdx, fromIdx = acquireVar(), ctx);
+                translateExpr(arrayExpr.toIdx, toIdx = acquireVar(), ctx);
+                body.push(dest, '=', ctx, '.slice(', fromIdx, ',', toIdx, ');');
+                releaseVars(fromIdx, toIdx);
+            }
+            else {
+                translateExpr(arrayExpr.fromIdx, fromIdx = acquireVar(), ctx);
+                body.push(dest, '=', ctx, '.slice(', fromIdx, ');');
+                releaseVars(fromIdx);
+            }
+        }
+        else {
+            translateExpr(arrayExpr.toIdx, toIdx = acquireVar(), ctx);
+            body.push(dest, '=', ctx, '.slice(0,', toIdx, ');');
+            releaseVars(toIdx);
+        }
+    }
+
+    function translateExpr(expr, dest, ctx) {
+        switch(expr.type) {
+            case SYNTAX.PATH:
+                translatePath(expr, dest, '[' + ctx + ']');
+                break;
+
+            case SYNTAX.COMPARISON_EXPR:
+                translateComparisonExpr(expr, dest, ctx);
+                break;
+
+            case SYNTAX.MATH_EXPR:
+                translateMathExpr(expr, dest, ctx);
+                break;
+
+            case SYNTAX.LOGICAL_EXPR:
+                translateLogicalExpr(expr, dest, ctx);
+                break;
+
+            case SYNTAX.UNARY_EXPR:
+                translateUnaryExpr(expr, dest, ctx);
+                break;
+
+            case SYNTAX.LITERAL:
+                var val = expr.val;
+                body.push(dest, '=', typeof val === 'string'? escapeStr(val) : val, ';');
+                break;
+
+            case SYNTAX.SUBST:
+                body.push(dest, '= subst.', expr.name, ';');
+                break;
+        }
+    }
+
+    function translateComparisonExpr(expr, dest, ctx) {
+        var val1 = acquireVar(), val2 = acquireVar(),
+            isVal1Array = acquireVar(), isVal2Array = acquireVar(),
+            i = acquireVar(), j = acquireVar(),
+            len1 = acquireVar(), len2 = acquireVar(),
+            leftArg = expr.args[0], rightArg = expr.args[1];
+
+        body.push(dest, '= false;');
+
+        translateExpr(leftArg, val1, ctx);
+        translateExpr(rightArg, val2, ctx);
+
+        var isLeftArgPath = leftArg.type === SYNTAX.PATH,
+            isRightArgLiteral = rightArg.type === SYNTAX.LITERAL;
+
+        body.push(isVal1Array, '=');
+        isLeftArgPath? body.push('true;') : body.push('isArr(', val1, ');');
+
+        body.push(isVal2Array, '=');
+        isRightArgLiteral? body.push('false;') : body.push('isArr(', val2, ');');
+
+        body.push(
+            'if(');
+        isLeftArgPath || body.push(isVal1Array, '&&');
+        body.push(val1, '.length === 1) {',
+                val1, '=', val1, '[0];',
+                isVal1Array, '= false;',
+            '}');
+        isRightArgLiteral || body.push(
+            'if(', isVal2Array, '&&', val2, '.length === 1) {',
+                val2, '=', val2, '[0];',
+                isVal2Array, '= false;',
+            '}');
+
+        body.push(i, '= 0;',
+            'if(', isVal1Array, ') {',
+                len1, '=', val1, '.length;');
+
+        if(!isRightArgLiteral) {
+            body.push(
+                'if(', isVal2Array, ') {',
+                    len2, '=', val2, '.length;',
+                    'while(', i, '<', len1, '&& !', dest, ') {',
+                        j, '= 0;',
+                        'while(', j, '<', len2, ') {');
+                            writeCondition(expr.op, [val1, '[', i, ']'].join(''), [val2, '[', j, ']'].join(''));
+                            body.push(
+                                dest, '= true;',
+                                'break;',
+                            '}',
+                            '++', j, ';',
+                        '}',
+                        '++', i, ';',
+                    '}',
+                '}',
+                'else {');
+        }
+        body.push(
+                    'while(', i, '<', len1, ') {');
+                        writeCondition(expr.op, [val1, '[', i, ']'].join(''), val2);
+                        body.push(
+                            dest, '= true;',
+                            'break;',
+                        '}',
+                        '++', i, ';',
+                    '}');
+
+        isRightArgLiteral || body.push(
+                '}');
+
+        body.push(
+            '}');
+
+        if(!isRightArgLiteral) {
+            body.push(
+            'else if(', isVal2Array,') {',
+                len2, '=', val2, '.length;',
+                'while(', i, '<', len2, ') {');
+                    writeCondition(expr.op, val1, [val2, '[', i, ']'].join(''));
+            body.push(
+                        dest, '= true;',
+                        'break;',
+                    '}',
+                    '++', i, ';',
+                '}',
+            '}');
+        }
+
+        body.push(
+            'else {',
+                dest, '=', binaryOperators[expr.op](val1, val2), ';',
+            '}');
+
+        releaseVars(val1, val2, isVal1Array, isVal2Array, i, j, len1, len2);
+    }
+
+    function writeCondition(op, val1Expr, val2Expr) {
+        body.push('if(', binaryOperators[op](val1Expr, val2Expr), ') {');
+    }
+
+    function translateLogicalExpr(expr, dest, ctx) {
+        var conditionVars = [],
+            args = expr.args, len = args.length,
+            i = 0, val;
+
+        body.push(dest, '= false;');
+        switch(expr.op) {
+            case '&&':
+                while(i < len) {
+                    conditionVars.push(val = acquireVar());
+                    translateExpr(args[i], val, ctx);
+                    body.push('if(', convertToBool(args[i++], val), ') {');
+                }
+                body.push(dest, '= true;');
+                break;
+
+            case '||':
+                while(i < len) {
+                    conditionVars.push(val = acquireVar());
+                    translateExpr(args[i], val, ctx);
+                    body.push(
+                        'if(', convertToBool(args[i], val), ') {',
+                            dest, '= true;',
+                        '}');
+                    if(i++ + 1 < len) {
+                        body.push('else {');
+                    }
+                }
+                --len;
+                break;
+        }
+
+        while(len--) {
+            body.push('}');
+        }
+
+        releaseVars.apply(null, conditionVars);
+    }
+
+    function translateMathExpr(expr, dest, ctx) {
+        var val1 = acquireVar(),
+            val2 = acquireVar(),
+            args = expr.args;
+
+        translateExpr(args[0], val1, ctx);
+        translateExpr(args[1], val2, ctx);
+
+        body.push(
+            dest, '=',
+            binaryOperators[expr.op](
+                convertToSingleValue(args[0], val1),
+                convertToSingleValue(args[1], val2)),
+            ';');
+
+        releaseVars(val1, val2);
+    }
+
+    function translateUnaryExpr(expr, dest, ctx) {
+        var val = acquireVar(),
+            arg = expr.arg;
+
+        translateExpr(arg, val, ctx);
+
+        switch(expr.op) {
+            case '!':
+                body.push(dest, '= !', convertToBool(arg, val) + ';');
+                break;
+
+            case '-':
+                body.push(dest, '= -', convertToSingleValue(arg, val) + ';');
+                break;
+        }
+
+        releaseVars(val);
+    }
+
+    function translateConcatExpr(expr, dest, ctx) {
+        var argVars = [],
+            args = expr.args,
+            len = args.length,
+            i = 0;
+
+        while(i < len) {
+            argVars.push(acquireVar());
+            translatePath(args[i], argVars[i++], ctx);
+        }
+
+        body.push(dest, '= (', dest, '= []).concat.call(', dest, ',', argVars.join(','), ');');
+
+        releaseVars.apply(null, argVars);
+    }
+
+    function escapeStr(s) {
+        return '\'' + s.replace(/\\/g, '\\\\').replace(/'/g, '\\\'') + '\'';
+    }
+
+    function inlineAppendToArray(res, val, tmpArr, len) {
+        body.push(
+            'if(', val, '!= null) {',
+                'if(isArr(', val, ')) {');
+        if(tmpArr) {
+            body.push(
+                    len, '> 1?');
+                        inlinePushToArray(tmpArr, val);
+            body.push(
+                        ':');
+        }
+        body.push(
+                    res, '=', res, '.concat(', val, ');',
+                '}',
+                'else {');
+        tmpArr && body.push(
+                    'if(', tmpArr, '.length) {',
+                        res, '=', res, '.concat.apply(', res, ',', tmpArr, ');',
+                        tmpArr, '= [];',
+                    '}');
+                    inlinePushToArray(res, val);
+        body.push(
+                '}',
+            '}');
+    }
+
+    function inlinePushToArray(res, val) {
+        body.push(res, '.length?', res, '.push(', val, ') :',  res, '[0] =', val);
+    }
+
+    function convertToBool(arg, varName) {
+        switch(arg.type) {
+            case SYNTAX.LOGICAL_EXPR:
+                return varName;
+
+            case SYNTAX.LITERAL:
+                return '!!' + varName;
+
+            case SYNTAX.PATH:
+                return varName + '.length > 0';
+
+            default:
+                return ['(typeof ', varName, '=== "boolean"?',
+                    varName, ':',
+                    'isArr(', varName, ')?', varName, '.length > 0 : !!', varName, ')'].join('');
+        }
+    }
+
+    function convertToSingleValue(arg, varName) {
+        switch(arg.type) {
+            case SYNTAX.LITERAL:
+                return varName;
+
+            case SYNTAX.PATH:
+                return varName + '[0]';
+
+            default:
+                return ['(isArr(', varName, ')?', varName, '[0] : ', varName, ')'].join('');
+        }
+    }
+
+    var binaryOperators = {
+            '===' : function(val1, val2) {
+                return val1 + '===' + val2;
+            },
+
+            '==' : function(val1, val2) {
+                return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string"?',
+                    val1, '.toLowerCase() ===', val2, '.toLowerCase() :' +
+                    val1, '==', val2].join('');
+            },
+
+            '>=' : function(val1, val2) {
+                return val1 + '>=' + val2;
+            },
+
+            '>' : function(val1, val2) {
+                return val1 + '>' + val2;
+            },
+
+            '<=' : function(val1, val2) {
+                return val1 + '<=' + val2;
+            },
+
+            '<' : function(val1, val2) {
+                return val1 + '<' + val2;
+            },
+
+            '!==' : function(val1, val2) {
+                return val1 + '!==' + val2;
+            },
+
+            '!=' : function(val1, val2) {
+                return val1 + '!=' + val2;
+            },
+
+            '^==' : function(val1, val2) {
+                return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
+                    val1, '.indexOf(', val2, ') === 0'].join('');
+            },
+
+            '^=' : function(val1, val2) {
+                return [val1, '!= null &&', val2, '!= null &&',
+                    val1, '.toString().toLowerCase().indexOf(', val2, '.toString().toLowerCase()) === 0'].join('');
+            },
+
+            '$==' : function(val1, val2) {
+                return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
+                    val1, '.lastIndexOf(', val2, ') ===', val1, '.length -', val2, '.length'].join('');
+            },
+
+            '$=' : function(val1, val2) {
+                return [val1, '!= null &&', val2, '!= null &&',
+                    '(', val1, '=', val1, '.toLowerCase().toString()).indexOf(',
+                    '(', val2, '=', val2, '.toLowerCase().toLowerCase())) ===',
+                    val1, '.length -', val2, '.length'].join('');
+            },
+
+            '*==' : function(val1, val2) {
+                return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
+                    val1, '.indexOf(', val2, ') > -1'].join('');
+            },
+
+            '*=' : function(val1, val2) {
+                return [val1, '!= null && ', val2, '!= null &&',
+                    val1, '.toString().toLowerCase().indexOf(', val2, '.toString().toLowerCase()) > -1'].join('');
+            },
+
+            '+' : function(val1, val2) {
+                return val1 + '+' + val2;
+            },
+
+            '-' : function(val1, val2) {
+                return val1 + '-' + val2;
+            },
+
+            '*' : function(val1, val2) {
+                return val1 + '*' + val2;
+            },
+
+            '/' : function(val1, val2) {
+                return val1 + '/' + val2;
+            },
+
+            '%' : function(val1, val2) {
+                return val1 + '%' + val2;
+            }
+        };
+
+    return translate;
+})();
+
+function compile(path) {
+    return Function('data,subst', translate(parse(path)));
+}
+
+var cache = {},
+    cacheKeys = [],
+    params = {
+        cacheSize : 100
+    },
+    setParamsHooks = {
+        cacheSize : function(oldVal, newVal) {
+            if(newVal < oldVal && cacheKeys.length > newVal) {
+                var removedKeys = cacheKeys.splice(0, cacheKeys.length - newVal),
+                    i = removedKeys.length;
+
+                while(i--) {
+                    delete cache[removedKeys[i]];
+                }
+            }
+        }
+    };
+
+var decl = function(path, ctx, substs) {
+    if(!cache[path]) {
+        cache[path] = compile(path);
+        if(cacheKeys.push(path) > params.cacheSize) {
+            delete cache[cacheKeys.shift()];
+        }
+    }
+
+    return cache[path](ctx, substs || {});
+};
+
+decl.version = '0.2.10';
+
+decl.params = function(_params) {
+    if(!arguments.length) {
+        return params;
+    }
+
+    for(var name in _params) {
+        if(_params.hasOwnProperty(name)) {
+            setParamsHooks[name] && setParamsHooks[name](params[name], _params[name]);
+            params[name] = _params[name];
+        }
+    }
+};
+
+decl.compile = compile;
+
+decl.apply = decl;
+
+if(typeof exports === 'object') {
+    module.exports = decl;
+}
+else if(typeof modules === 'object') {
+    modules.define('jspath', function(provide) {
+        provide(decl);
+    });
+}
+else if(typeof define === 'function') {
+    define(function(require, exports, module) {
+        module.exports = decl;
+    });
+}
+else {
+    JSPath = decl;
+}
+
+})();

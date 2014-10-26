@@ -1,7 +1,7 @@
 {
   "files": {
     "/home/arik/dev/projects/lastboy/jqueryspa/cat-project/target/jqueryspa-test/js/config.js": {
-      "scrap_af90fc1f-4a53-824f-1960-67e18a540b6b": {
+      "scrap_8b37305a-15b5-6e67-67ca-bb6853a9e5b3": {
         "require": ["/cat/lib/cat.js"],
         "file": "/home/arik/dev/projects/lastboy/jqueryspa/cat-project/target/jqueryspa-test/js/config.js",
         "scrapinfo": {
@@ -24,7 +24,7 @@
             "col": 2
           }
         },
-        "name": "scrap_af90fc1f-4a53-824f-1960-67e18a540b6b",
+        "name": "scrap_8b37305a-15b5-6e67-67ca-bb6853a9e5b3",
         "single": {
           "require": true,
           "file": true,
@@ -60,7 +60,7 @@
         "context": ["thi$"],
         "auto": false,
         "injectcode": true,
-        "id": "scrap_af90fc1f-4a53-824f-1960-67e18a540b6b",
+        "id": "scrap_8b37305a-15b5-6e67-67ca-bb6853a9e5b3",
         "$type": "js",
         "injectinfo": {
           "start": {
@@ -69,7 +69,7 @@
           },
           "end": {
             "line": 30,
-            "col": 628
+            "col": 900
           }
         }
       },
@@ -133,7 +133,7 @@
         "context": ["thi$"],
         "auto": true,
         "injectcode": false,
-        "id": "scrap_aa3213a9-6fa6-e7db-31d3-f42724c182ab",
+        "id": "scrap_f97ab996-ed1a-809a-8006-0bd9e7f17fb6",
         "$type": "js",
         "numCommands": 1,
         "pkgName": "jqueryspa-test.js.config.bootstrapInitTest",
@@ -213,7 +213,7 @@
         "context": ["thi$"],
         "auto": true,
         "injectcode": false,
-        "id": "scrap_7a0ae839-0af2-9c76-a973-a185ef84d03b",
+        "id": "scrap_1a59f832-fac1-d9cc-58d8-a69a754e1b08",
         "$type": "js",
         "numCommands": 1,
         "pkgName": "jqueryspa-test.js.controllers.app.menuTest",
@@ -291,7 +291,7 @@
         "context": ["thi$"],
         "auto": true,
         "injectcode": false,
-        "id": "scrap_f00110d7-92f0-8c1b-77e8-9c217407681d",
+        "id": "scrap_d2727f0a-bfc9-494a-1cd4-3e04df454926",
         "$type": "js",
         "numCommands": 2,
         "pkgName": "jqueryspa-test.js.controllers.app.menuItemsAction",

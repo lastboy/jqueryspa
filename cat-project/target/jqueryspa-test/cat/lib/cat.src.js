@@ -59,7 +59,7 @@ _cat.core.declare('jqueryspa-test.js.config.bootstrapInitTest$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_aa3213a9-6fa6-e7db-31d3-f42724c182ab",
+    "id": "scrap_f97ab996-ed1a-809a-8006-0bd9e7f17fb6",
     "$type": "js",
     "numCommands": 1,
     "pkgName": "jqueryspa-test.js.config.bootstrapInitTest"
@@ -171,7 +171,7 @@ _cat.core.declare('jqueryspa-test.js.controllers.app.menuTest$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_7a0ae839-0af2-9c76-a973-a185ef84d03b",
+    "id": "scrap_1a59f832-fac1-d9cc-58d8-a69a754e1b08",
     "$type": "js",
     "numCommands": 1,
     "pkgName": "jqueryspa-test.js.controllers.app.menuTest"
@@ -266,7 +266,7 @@ _cat.core.declare('jqueryspa-test.js.controllers.app.menuItemsAction$$cat', {
     "context": ["thi$"],
     "auto": true,
     "injectcode": false,
-    "id": "scrap_f00110d7-92f0-8c1b-77e8-9c217407681d",
+    "id": "scrap_d2727f0a-bfc9-494a-1cd4-3e04df454926",
     "$type": "js",
     "numCommands": 2,
     "pkgName": "jqueryspa-test.js.controllers.app.menuItemsAction"
@@ -299,14 +299,31 @@ _cat.core.define("jqueryspa-test.js.controllers.app.menuItemsAction$$cat", funct
     args: _args
   });
 });
-_cat.core.define("jqueryspa-test.js.controllers.app.bootstrapInitTest", function() {
+_cat.core.define("jqueryspa-test.js.controllers.app.menuTest", function() {
 
-  var pkgName = "jqueryspa-test.js.controllers.app.bootstrapInitTest";
+  var pkgName = "jqueryspa-test.js.controllers.app.menuTest";
 
   return {
 
     /**
-     * Init functionality for scrap jqueryspa-test.js.controllers.app.bootstrapInitTest
+     * Init functionality for scrap jqueryspa-test.js.controllers.app.menuTest
+     *
+     * @param content CAT Context object
+     */
+    init: function(context) {
+
+    }
+  };
+
+}());
+_cat.core.define("jqueryspa-test.js.controllers.app.menuItemsAction", function() {
+
+  var pkgName = "jqueryspa-test.js.controllers.app.menuItemsAction";
+
+  return {
+
+    /**
+     * Init functionality for scrap jqueryspa-test.js.controllers.app.menuItemsAction
      *
      * @param content CAT Context object
      */

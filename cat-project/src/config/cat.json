@@ -14,6 +14,7 @@
   "name": "jqueryspa-test",
   "ip": null,
   "port": null,
+  "context": "",
   "tests": [{
     "name": "general"
   }],
@@ -24,19 +25,19 @@
       }, {
         "name": "menuTest"
       }, {
-        "name": "menuItemsAction", "repeat": 3
+        "name": "menuItemsAction", "repeat":3
       }]
     }
   },
   "ui": true,
   "report": {
-    "format": ["console"],
+    "format": ["console", "junit"],
     "disable": false
   },
   "assert": {
     "errors": true
   },
   "run-mode": "tests",
-  "run-test-delay": 2000,
+  "run-test-delay": 500,
   "test-failure-timeout": 30
 }

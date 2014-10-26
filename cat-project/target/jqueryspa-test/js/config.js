@@ -30,15 +30,17 @@ require.config({
 *//**
  *  catjs require configuration - for additional require config use your application's 
  */
-require.config({"shim":{"catjs":{"exports":"_cat","deps":["chai"]},"catsrc":{"deps":["cat"]}},"paths":{"chai":"/cat/lib/chai","jspath":"/cat/lib/jspath","tmr":"/cat/lib/tmr","cat":"/cat/lib/cat","catsrc":"/cat/lib/cat.src"}});
-require(["chai","jspath","tmr","cat","catsrc"], function(chai,jspath,tmr,cat,catsrc) {
+require.config({"shim":{"catjs":{"exports":"_cat","deps":["chai"]},"catsrcjs":{"deps":["cat"]},"underscore":{"exports":"_"},"jsutils":{"deps":["underscore"]},"tmr":{"deps":["underscore","jsutils"]},"jspath":{"exports":"JSPath"},"chai":{"exports":"chai"}},"paths":{"underscore":"/cat/lib/underscore-min","jsutils":"/cat/lib/jsutils-min","tmr":"/cat/lib/tmr-min","jspath":"/cat/lib/jspath","chai":"/cat/lib/chai","cat":"/cat/lib/cat","catsrcjs":"/cat/lib/cat.src"}});
+require(["underscore","jsutils","tmr","jspath","chai","cat","catsrcjs"], function(underscore,jsutils,tmr,jspath,chai,cat,catsrcjs) {
 
-    if (typeof chai !== "undefined") {
-        window["chai"] = chai;
-    }
     if (typeof jspath !== "undefined") {
-        window["JSPath"] = jspath;
-    }
+    window["JSPath"] = jspath;
+}
+ if (typeof chai !== "undefined") {
+    window["chai"] = chai;
+}
+
+    
     _cat.utils.Loader.requires(["/cat/lib/cat.css"])
 
 });
